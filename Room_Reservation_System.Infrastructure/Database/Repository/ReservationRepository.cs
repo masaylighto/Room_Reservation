@@ -31,8 +31,7 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
                     RoomNumber = roomNumber
                 }
             };
-            return true;
-            //return _Reservations.IsExist<Reservation, CompareReservationRoomNumber>(compareReservation);
+            return _Reservations.IsExist<Reservation, CompareReservationRoomNumber>(compareReservation);
             
         }
 

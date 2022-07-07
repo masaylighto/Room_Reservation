@@ -12,6 +12,7 @@ namespace Room_Reservation_System.Web
             _Builder = builder;
             ConfigServices();
             ConfigPipeline();
+            SetConnectionConfiguration();
         }
         void ConfigServices() 
         {
@@ -20,7 +21,11 @@ namespace Room_Reservation_System.Web
         }
         void AddControllers() 
         {
-            _Builder.Services.AddControllers();
+            _Builder.Services.AddControllers();          
+        }
+        void SetConnectionConfiguration()
+        {
+            _Builder.Services.ConfigureCors();
         }
         void AddDatabaseService() 
         {

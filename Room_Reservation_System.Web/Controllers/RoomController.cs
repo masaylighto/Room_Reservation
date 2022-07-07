@@ -16,7 +16,7 @@ namespace Room_Reservation_System.Web.Controllers
         [Route("api/reservation/v1/Get")]
         public string GetText()
         {
-           // _RepositoryManager.Reservation.IsRoomReserved(0);
+            _RepositoryManager.Reservation.IsRoomReserved(522);
           return "";
         }
     }
