@@ -25,7 +25,6 @@ namespace Room_Reservation_System.Core.Entites
         [ForeignKey(nameof(Room))]
         [Required(ErrorMessage = "Resource RoomId  navigation property cant be left empty")]
         public Guid RoomId { get; set; }
-        [Required(ErrorMessage = "Resource Room  navigation property cant be left empty")]
         public Room? Room { get; set; }
 
     }

@@ -17,11 +17,32 @@ namespace Room_Reservation_System.Infrastructure.Database.Configuration
         }
         Room[] InitialData() 
         {
-            List<Room> roomResources = new();
-            roomResources.Add(new () { });
-            roomResources.Add(new () { });
-            roomResources.Add(new () { });
-            return roomResources.ToArray();
+            List<Room> rooms = new();
+            rooms.Add(new () 
+            {
+                RoomNumber = 512,
+                Id = new Guid("792ba6aa-1416-482a-8f40-2557eb6a6368"),
+                Capacity = 50,
+                Type =Core.Enums.RoomType.SettingRoom,
+                Location= "Berlin"
+            });
+            rooms.Add(new () 
+            {
+                RoomNumber = 522,
+                Id = new Guid("1faa2016-8d9d-4493-a7ce-4b2c9b0695b3"),
+                Capacity = 50,
+                Type = Core.Enums.RoomType.StandingRoom,
+                Location = "Amsterdam"
+            });
+            rooms.Add(new () 
+            {
+                RoomNumber=542,
+                Id= new Guid("0022b957-3413-4f87-9a03-7a7a4505ac9f"),
+                Capacity =50,
+                Type = Core.Enums.RoomType.StandingRoom,
+                Location = "Berlin"
+            });
+            return rooms.ToArray();
         }
     }
 }

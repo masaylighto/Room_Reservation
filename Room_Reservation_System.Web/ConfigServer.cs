@@ -24,7 +24,7 @@ namespace Room_Reservation_System.Web
         }
         void AddDatabaseService() 
         {
-             string SqlServerConnection = _Builder.Configuration.GetConnectionString("SqlServer");
+             string SqlServerConnection = _Builder.Configuration.GetConnectionString("sqlConnection");
             _Builder.Services.AddSqlServerDb(SqlServerConnection);
         }
         void ConfigPipeline() {
