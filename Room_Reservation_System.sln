@@ -1,0 +1,59 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32519.111
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6BAF4124-C41D-4B40-AE72-FF2C0126012C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{76B362CF-47ED-4A54-BC0B-413EE001D8AE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Room_Reservation_System.Core", "Room_Reservation_System.Core\Room_Reservation_System.Core.csproj", "{C967CC04-79E7-4F41-9B0B-BCFB5E12C253}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Room_Reservation_System.Infrastructure", "Room_Reservation_System.Infrastructure\Room_Reservation_System.Infrastructure.csproj", "{79BC5F00-C5CF-4FE8-B176-B0FAA63A6F0A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Room_Reservation_System.SharedKernel", "Room_Reservation_System.SharedKernel\Room_Reservation_System.SharedKernel.csproj", "{DE497616-A5DC-4981-91A6-1D167F3679E5}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{89B69C4C-025B-4D75-92E4-2B8F2AD53074}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Room_Reservation_System.Web", "Room_Reservation_System.Web\Room_Reservation_System.Web.csproj", "{F3F9A390-F35D-460A-8E32-CE654A085284}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C967CC04-79E7-4F41-9B0B-BCFB5E12C253}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C967CC04-79E7-4F41-9B0B-BCFB5E12C253}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C967CC04-79E7-4F41-9B0B-BCFB5E12C253}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C967CC04-79E7-4F41-9B0B-BCFB5E12C253}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79BC5F00-C5CF-4FE8-B176-B0FAA63A6F0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79BC5F00-C5CF-4FE8-B176-B0FAA63A6F0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79BC5F00-C5CF-4FE8-B176-B0FAA63A6F0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79BC5F00-C5CF-4FE8-B176-B0FAA63A6F0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE497616-A5DC-4981-91A6-1D167F3679E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE497616-A5DC-4981-91A6-1D167F3679E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE497616-A5DC-4981-91A6-1D167F3679E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE497616-A5DC-4981-91A6-1D167F3679E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89B69C4C-025B-4D75-92E4-2B8F2AD53074}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89B69C4C-025B-4D75-92E4-2B8F2AD53074}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89B69C4C-025B-4D75-92E4-2B8F2AD53074}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89B69C4C-025B-4D75-92E4-2B8F2AD53074}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3F9A390-F35D-460A-8E32-CE654A085284}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3F9A390-F35D-460A-8E32-CE654A085284}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3F9A390-F35D-460A-8E32-CE654A085284}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3F9A390-F35D-460A-8E32-CE654A085284}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C967CC04-79E7-4F41-9B0B-BCFB5E12C253} = {6BAF4124-C41D-4B40-AE72-FF2C0126012C}
+		{79BC5F00-C5CF-4FE8-B176-B0FAA63A6F0A} = {6BAF4124-C41D-4B40-AE72-FF2C0126012C}
+		{DE497616-A5DC-4981-91A6-1D167F3679E5} = {6BAF4124-C41D-4B40-AE72-FF2C0126012C}
+		{F3F9A390-F35D-460A-8E32-CE654A085284} = {6BAF4124-C41D-4B40-AE72-FF2C0126012C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {45DCE4F3-4E01-4814-AA6D-3EDF925BDBD4}
+	EndGlobalSection
+EndGlobal

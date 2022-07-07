@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  room_reservation_system.web:
+    image: ${DOCKER_REGISTRY-}roomreservationsystemweb
+    build:
+      context: .
+      dockerfile: Room_Reservation_System\Dockerfile
