@@ -14,7 +14,7 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
     {
         private DbSet<T> Table { get; set; }
 
-        public BaseRepository(ref DbSet<T> table)
+        public BaseRepository(DbSet<T> table)
         {
             Table = table;
         }

@@ -9,13 +9,14 @@ using System.Threading.Tasks;
  
 namespace Room_Reservation_System.Infrastructure.Database.Repository
 {
-    public class RepositoryManager : IRepositoryManager
+    public sealed class RepositoryManager : IRepositoryManager
     {
         private Lazy<IReservationRepository> _Reservation { get; set; }
         private Lazy<IResourcesRepository> _Resources { get; set; }
         private Lazy<IRoomRepository> _Room { get; set; }
 
         private BaseContext baseContext;
+     
         public RepositoryManager(BaseContext baseContext)
         {
             _Reservation = new Lazy<IReservationRepository>(() => new ReservationRepository(baseContext.Set<Reservation>()));

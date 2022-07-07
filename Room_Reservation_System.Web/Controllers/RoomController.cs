@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Room_Reservation_System.Core.Interfaces;
 using Room_Reservation_System.Infrastructure.Database.Repository;
 
 namespace Room_Reservation_System.Web.Controllers
 {
     public class RoomController : Controller
     {
-        RepositoryManager _RepositoryManager;
-        public RoomController(RepositoryManager repositoryManager)
+        IRepositoryManager _RepositoryManager;
+        public RoomController(IRepositoryManager repositoryManager)
         {
             _RepositoryManager = repositoryManager;
         }

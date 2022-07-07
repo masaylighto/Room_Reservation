@@ -15,7 +15,7 @@ namespace Room_Reservation_System.Infrastructure.Extentions
     {
         public static void AddSqlServerDb(this IServiceCollection services,string DatabaseConnection) 
         {
-            services.AddDbContext<BaseContext>(option =>option.UseSqlServer(DatabaseConnection));
+            services.AddDbContext<BaseContext>(option =>option.UseSqlServer(DatabaseConnection),ServiceLifetime.Scoped);
             services.AddScoped<IRepositoryManager, RepositoryManager>();
         }
       
