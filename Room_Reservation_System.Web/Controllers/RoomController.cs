@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Room_Reservation_System.Core.Interfaces;
+using Room_Reservation_System.Core.Response;
 using Room_Reservation_System.Infrastructure.Database.Repository;
 
 namespace Room_Reservation_System.Web.Controllers
@@ -13,11 +14,10 @@ namespace Room_Reservation_System.Web.Controllers
         }
 
         [HttpGet]
-        [Route("api/reservation/v1/Get")]
-        public string GetText()
-        {
-            _RepositoryManager.Reservation.IsRoomReserved(522);
-          return "";
+        [Route("api/reservation/v1/room/IsReserved/{RoomNumber}")]
+        public object IsRoomReserved(int RoomNumber)
+        {            
+           return HttpResponses.Success(("IsRoomReserved", _RepositoryManager.IsRoomReserved(RoomNumber)));           
         }
     }
 }

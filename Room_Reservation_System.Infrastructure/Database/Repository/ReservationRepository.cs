@@ -20,6 +20,12 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
             _Reservations = _reservations;
         }
 
+        /// <summary>
+        /// this method only check if there is a reservation with this room number 
+        /// it doesn't care if there is a room with this number in the database
+        /// </summary>
+        /// <param name="roomNumber"></param>
+        /// <returns></returns>
         public bool IsRoomReserved(int roomNumber)
         { 
             //temporary object that will be used to store room number 

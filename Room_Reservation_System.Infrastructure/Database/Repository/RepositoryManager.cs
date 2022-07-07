@@ -28,7 +28,18 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
         {
             baseContext.SaveChanges();
         }
-
+        /// <summary>
+        /// Check if the room reserved if the room is not exist it will through exception
+        /// </summary>
+        /// <param name="roomNumber"></param>
+        public bool IsRoomReserved(int roomNumber)
+        {
+            if (!Room.IsRoomExisted(roomNumber))
+            {
+                throw new Exception($"no room with the number {roomNumber}  exist");
+            }
+            return Reservation.IsRoomReserved(roomNumber);
+        }
         public void ReserveRoom(int RoomId,DateTime StartDate,DateTime EndDate)
         {
        
