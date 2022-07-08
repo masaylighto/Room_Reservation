@@ -14,10 +14,12 @@ namespace Room_Reservation_System.Web.Controllers
         }
 
         [HttpGet]
-        [Route("api/reservation/v1/room/IsReserved/{RoomNumber}")]
-        public object IsRoomReserved(int RoomNumber)
+        [Route("api/reservation/v1/room/IsReserved/")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        public object IsRoomReserved(Core.DataStructure.HttpParameters.RoomReservationInfo paramters)
         {            
-           return HttpResponses.Success(("IsRoomReserved", _RepositoryManager.IsRoomReserved(RoomNumber)));           
+           return HttpResponses.Success(("IsRoomReserved", _RepositoryManager.IsRoomReserved(paramters)));           
         }
     }
 }

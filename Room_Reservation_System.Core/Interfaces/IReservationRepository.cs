@@ -5,10 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Room_Reservation_System.SharedKernel.Interfaces;
+using Room_Reservation_System.Core.DataStructure.HttpParameters;
+
 namespace Room_Reservation_System.Core.Interfaces
 {
     public interface IReservationRepository: IBaseRepository<Reservation>
     {
-        bool IsRoomReserved(int roomNumber);
+        bool IsRoomReserved(RoomReservationInfo paramters);
     }
 }

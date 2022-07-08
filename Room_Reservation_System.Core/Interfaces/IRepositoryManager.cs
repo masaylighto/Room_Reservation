@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Room_Reservation_System.Core.DataStructure.HttpParameters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace Room_Reservation_System.Core.Interfaces
         IReservationRepository Reservation { get;  }
         IResourcesRepository Resources { get;  }
         IRoomRepository Room { get;  }
-        public bool IsRoomReserved(int roomNumber);
+        public bool IsRoomReserved(RoomReservationInfo Paramters);
         void ReserveRoom(int RoomId, DateTime StartDate, DateTime EndDate);
         void Save();
     }

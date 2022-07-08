@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using Room_Reservation_System.SharedKernel.Interfaces;
 using Room_Reservation_System.Core.Comparers.Entity.ReservationComparer;
 using Room_Reservation_System.Core.ExtensionMethods;
+using Room_Reservation_System.Core.WhereClause;
+using Room_Reservation_System.Core.DataStructure.HttpParameters;
 
 namespace Room_Reservation_System.Infrastructure.Database.Repository
 {
@@ -19,26 +21,15 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
         {
             _Reservations = _reservations;
         }
-
         /// <summary>
         /// this method only check if there is a reservation with this room number 
         /// it doesn't care if there is a room with this number in the database
         /// </summary>
         /// <param name="roomNumber"></param>
         /// <returns></returns>
-        public bool IsRoomReserved(int roomNumber)
+        public bool IsRoomReserved(RoomReservationInfo paramters)
         { 
-            //temporary object that will be used to store room number 
-            //to use it to check if there is a room with this information
-            var compareReservation = new Reservation()
-            {
-                ReservedRoom = new Room() 
-                {
-                    RoomNumber = roomNumber
-                }
-            };
-            return _Reservations.IsExist<Reservation, CompareReservationRoomNumber>(compareReservation);
-            
+            return _Reservations.Any(ReservationsWhereClause.Reservation(paramters));            
         }
 
        

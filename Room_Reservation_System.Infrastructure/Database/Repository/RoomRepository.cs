@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Room_Reservation_System.SharedKernel.Interfaces;
 using Room_Reservation_System.Core.Comparers.Entity.RoomComparers;
 using Room_Reservation_System.Core.ExtensionMethods;
+using Room_Reservation_System.Core.WhereClause;
 
 namespace Room_Reservation_System.Infrastructure.Database.Repository
 {
@@ -23,7 +24,7 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
         }
         public bool IsRoomExisted(int roomNumber)
         {
-            return _Rooms.IsExist<Room,CompareRoomNumber>(new Room() { RoomNumber = roomNumber }); ;
+            return _Rooms.Any(RoomWhereClause.RoomNumber(roomNumber)) ;
         }
     }
 }

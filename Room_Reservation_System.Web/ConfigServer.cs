@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Mvc;
 using Room_Reservation_System.Infrastructure.Extentions;
 
 namespace Room_Reservation_System.Web
@@ -19,6 +20,7 @@ namespace Room_Reservation_System.Web
             AddDatabaseService();
             AddControllers();
         }
+     
         void AddControllers() 
         {
             _Builder.Services.AddControllers();          
