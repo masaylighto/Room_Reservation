@@ -8,16 +8,15 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using Room_Reservation_System.SharedKernel.Interfaces;
 using Room_Reservation_System.Core.ExtensionMethods;
 using Room_Reservation_System.Core.WhereClause;
 
 namespace Room_Reservation_System.Infrastructure.Database.Repository
 {
-    public class RoomRepository : BaseRepository<Room>, IRoomRepository
+    public class RoomRepository :  IRoomRepository
     {
         private readonly DbSet<Room> _Rooms;
-        public RoomRepository(DbSet<Room> rooms) : base(rooms)
+        public RoomRepository(DbSet<Room> rooms) 
         {
             _Rooms = rooms;
         }
@@ -25,7 +24,7 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
         {
             return _Rooms.Any(RoomWhereClause.RoomNumber(roomNumber)) ;
         }
-        public override IEnumerable<Room> Get(Func<Room, bool> expression, bool trackChanges)
+        public  IEnumerable<Room> Get(Func<Room, bool> expression, bool trackChanges)
         {
             var room = _Rooms.Include(i => i.Reservations).Include(i => i.Resources);
             if (trackChanges)

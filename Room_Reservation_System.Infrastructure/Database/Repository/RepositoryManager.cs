@@ -50,18 +50,13 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
             }
             return _Reservation.IsReservationExist(paramters);
         }
-        Room? GetRoom(Func<Room,bool> whereClause)
-        {   
-            //Room.Get had been Overided in Room Repository Class
-            return _Room.Get(whereClause, true).FirstOrDefault();
-        }
         public bool CreateReservation(RoomReservationInfo paramters)
         {
             if (IsRoomReserved(paramters))
             {
                 throw new Exception($"room {paramters.RoomNumber} already reserved at the chosen time");
             }            
-            Room chossenRoom = GetRoom(RoomWhereClause.RoomNumber(paramters.RoomNumber))!;
+            Room chossenRoom = _Room.Get(RoomWhereClause.RoomNumber(paramters.RoomNumber), true).FirstOrDefault()!;
             Reservation reservation = new() 
             {
                 id = Guid.NewGuid(),
@@ -71,7 +66,7 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
                 RoomId= chossenRoom.Id
             };
             _Reservation.Add(reservation);
-            chossenRoom.Reservations.Add(reservation);
+             chossenRoom.Reservations.Add(reservation);
             return Save();
         }
 

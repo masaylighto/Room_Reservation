@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Room_Reservation_System.Core.Entites;
-using Room_Reservation_System.SharedKernel.Interfaces;
 namespace Room_Reservation_System.Core.Interfaces
 {
-    public interface IRoomRepository:IBaseRepository<Room>
+    public interface IRoomRepository
     {
+        public IEnumerable<Room> Get(Func<Room, bool> expression, bool trackChanges);
         bool IsRoomExisted(int roomNumber);
     }
 }

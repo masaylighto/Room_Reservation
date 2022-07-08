@@ -6,17 +6,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Room_Reservation_System.SharedKernel.Interfaces;
 using Room_Reservation_System.Core.ExtensionMethods;
 using Room_Reservation_System.Core.WhereClause;
 using Room_Reservation_System.Core.DataStructure.HttpParameters;
 
 namespace Room_Reservation_System.Infrastructure.Database.Repository
 {
-    public class ReservationRepository : BaseRepository<Reservation>, IReservationRepository
+    public class ReservationRepository :  IReservationRepository
     {
         public readonly DbSet<Reservation> _Reservations;
-        public ReservationRepository(DbSet<Reservation> _reservations) : base(_reservations)
+        public ReservationRepository(DbSet<Reservation> _reservations) 
         {
             _Reservations = _reservations;
         
@@ -39,7 +38,7 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
         /// Delete All Entity That Match the expression
         /// </summary>
         /// <param name="expression"></param>
-        public override void Delete(Func<Reservation, bool> expression)
+        public  void Delete(Func<Reservation, bool> expression)
         {
 
             if (!_Reservations.Include(i => i.ReservedRoom).Any(expression))
@@ -48,6 +47,9 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
             }
             _Reservations.RemoveRange(_Reservations.Include(i => i.ReservedRoom).Where(expression));
         }
-
+        public  void Add(Reservation entity)
+        {
+            _Reservations.Add(entity);
+        }
     }
 }
