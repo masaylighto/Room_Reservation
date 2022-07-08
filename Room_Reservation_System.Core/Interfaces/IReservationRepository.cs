@@ -12,5 +12,6 @@ namespace Room_Reservation_System.Core.Interfaces
     public interface IReservationRepository: IBaseRepository<Reservation>
     {
         bool IsRoomReserved(RoomReservationInfo paramters);
+
     }
 }

@@ -26,5 +26,15 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
         {
             return _Rooms.Any(RoomWhereClause.RoomNumber(roomNumber)) ;
         }
+        public override IEnumerable<Room> Get(Func<Room, bool> expression, bool trackChanges)
+        {
+            var room = _Rooms.Include(i => i.Reservations).Include(i => i.Resources);
+            if (trackChanges)
+            {
+                return room.AsQueryable<Room>().Where(expression);
+            }
+            return room.AsNoTracking<Room>().Where(expression);
+        }
+   
     }
 }

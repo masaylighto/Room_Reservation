@@ -1,6 +1,7 @@
 ﻿using Room_Reservation_System.Core.DataStructure.HttpParameters;
 using Room_Reservation_System.Core.Entites;
 using Room_Reservation_System.Core.Interfaces;
+using Room_Reservation_System.Core.WhereClause;
 using Room_Reservation_System.Infrastructure.Database.Context;
 using System;
 using System.Collections.Generic;
@@ -26,10 +27,13 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
             _Room = new Lazy<IRoomRepository>(() => new RoomRepository(baseContext.Set<Room>()));
             _baseContext = baseContext;
         }
-
-        public void Save()
+        /// <summary>
+        /// Save Change to Database
+        /// </summary>
+        /// <returns> True if the operation Succeed</returns>
+        public bool Save()
         {
-            _baseContext.SaveChanges();
+            return _baseContext.SaveChanges()>0;
         }
         /// <summary>
         /// Check if the room reserved if the room is not exist it will through exception
@@ -48,6 +52,26 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
                 throw new Exception($"no room with the number {paramters.RoomNumber} exist");
             }
             return Reservation.IsRoomReserved(paramters);
+        }
+
+        public bool CreateReservation(RoomReservationInfo paramters)
+        {
+            if (IsRoomReserved(paramters))
+            {
+                throw new Exception($"room already reserved at the chosen time");
+            }
+            Room ChossenRoom = Room.Get(RoomWhereClause.RoomNumber(paramters.RoomNumber), true).First();
+            Reservation reservation = new() 
+            {
+                id = Guid.NewGuid(),
+                Begin = paramters.StartDate,
+                End = paramters.EndDate,
+                ReservedRoom= ChossenRoom,
+                RoomId= ChossenRoom.Id
+            };
+            Reservation.Add(reservation);
+            ChossenRoom.Reservations.Add(reservation);
+            return Save();
         }
 
         //this method used to provide access to repositories specialized methods 

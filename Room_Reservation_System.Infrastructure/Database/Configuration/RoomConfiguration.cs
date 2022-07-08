@@ -24,7 +24,9 @@ namespace Room_Reservation_System.Infrastructure.Database.Configuration
                 Id = new Guid("792ba6aa-1416-482a-8f40-2557eb6a6368"),
                 Capacity = 50,
                 Type =Core.Enums.RoomType.SettingRoom,
-                Location= "Berlin"
+                Location= "Berlin",
+                Reservations= new List<Reservation>(),
+                Resources = new List<Resource>(),
             });
             rooms.Add(new () 
             {
@@ -32,7 +34,9 @@ namespace Room_Reservation_System.Infrastructure.Database.Configuration
                 Id = new Guid("1faa2016-8d9d-4493-a7ce-4b2c9b0695b3"),
                 Capacity = 50,
                 Type = Core.Enums.RoomType.StandingRoom,
-                Location = "Amsterdam"
+                Location = "Amsterdam",
+                Reservations = new List<Reservation>(),
+                Resources = new List<Resource>(),
             });
             rooms.Add(new () 
             {
@@ -40,7 +44,9 @@ namespace Room_Reservation_System.Infrastructure.Database.Configuration
                 Id= new Guid("0022b957-3413-4f87-9a03-7a7a4505ac9f"),
                 Capacity =50,
                 Type = Core.Enums.RoomType.StandingRoom,
-                Location = "Berlin"
+                Location = "Berlin",
+                Reservations = new List<Reservation>(),
+                Resources = new List<Resource>(),
             });
             return rooms.ToArray();
         }

@@ -25,6 +25,7 @@ namespace Room_Reservation_System.Infrastructure.Database.Configuration
                 Counts =10,
                 Type =Core.Enums.RoomResourceType.ImMovable,
                 RoomId = new Guid("792ba6aa-1416-482a-8f40-2557eb6a6368")
+
             });
             roomResources.Add(new ()
             {

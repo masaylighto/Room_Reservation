@@ -10,7 +10,7 @@ namespace Room_Reservation_System.SharedKernel.Interfaces
     public interface IBaseRepository<T>
     {
         IQueryable<T> Get(bool trackChanges);
-        IEnumerable<T> Get(Expression<Func<T,bool>> expression,bool trackChanges);
+        IEnumerable<T>  Get(Func<T,bool> expression,bool trackChanges);
         void Add(T entity);
         void Update(T entity);
         void Delete(T entity);

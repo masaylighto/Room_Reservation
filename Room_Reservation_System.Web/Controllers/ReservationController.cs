@@ -21,5 +21,11 @@ namespace Room_Reservation_System.Web.Controllers
         {            
            return HttpResponses.Success(("IsRoomReserved", _RepositoryManager.IsRoomReserved(paramters)));           
         }
+        [Route("CreateReservation/")]
+
+        public object CreateReservation(Core.DataStructure.HttpParameters.RoomReservationInfo paramters)
+        {
+            return HttpResponses.Success(("IsReservationSucceed", _RepositoryManager.CreateReservation(paramters)));
+        }
     }
 }

@@ -14,22 +14,22 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
     {
         private readonly DbSet<T> Table;
 
-        public BaseRepository(DbSet<T> table)
+        public  BaseRepository(DbSet<T> table)
         {
             Table = table;
         }
 
-        public void Add(T entity)
+        public virtual void Add(T entity)
         {
             Table.Add(entity);
         }
 
-        public void Delete(T entity)
+        public virtual void Delete(T entity)
         {
             Table.Remove(entity);
         }
 
-        public IQueryable<T> Get(bool trackChanges)
+        public virtual IQueryable<T> Get(bool trackChanges)
         {
             if (trackChanges)
             {
@@ -38,7 +38,7 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
             return Table.AsNoTracking<T>().AsQueryable<T>();
         }
 
-        public IEnumerable<T> Get(Expression<Func<T, bool>> expression, bool trackChanges)
+        public virtual IEnumerable<T> Get(Func<T, bool> expression, bool trackChanges)
         {
             if (trackChanges)
             {
@@ -47,7 +47,7 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
             return Table.AsNoTracking<T>().Where(expression);
         }
 
-        public void Update(T entity)
+        public virtual void Update(T entity)
         {
             Table.Remove(entity);
         }

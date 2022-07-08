@@ -13,7 +13,7 @@ namespace Room_Reservation_System.Infrastructure.Database.Context
     {
         public BaseContext(DbContextOptions options) : base(options)
         {
-
+            
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

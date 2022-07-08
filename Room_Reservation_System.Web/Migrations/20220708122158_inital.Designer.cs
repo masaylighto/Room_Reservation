@@ -12,7 +12,7 @@ using Room_Reservation_System.Infrastructure.Database.Context;
 namespace Room_Reservation_System.Web.Migrations
 {
     [DbContext(typeof(BaseContext))]
-    [Migration("20220707173501_inital")]
+    [Migration("20220708122158_inital")]
     partial class inital
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

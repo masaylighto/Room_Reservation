@@ -14,6 +14,7 @@ namespace Room_Reservation_System.Core.Interfaces
         IRoomRepository Room { get;  }
         public bool IsRoomReserved(RoomReservationInfo Paramters);
         void ReserveRoom(int RoomId, DateTime StartDate, DateTime EndDate);
-        void Save();
+        bool Save();
+        bool CreateReservation(RoomReservationInfo paramters);
     }
 }
