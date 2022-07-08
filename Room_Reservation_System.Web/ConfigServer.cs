@@ -17,10 +17,23 @@ namespace Room_Reservation_System.Web
         }
         void ConfigServices() 
         {
+
+            SetAcceptiableContentType();
             AddLogger();
             AddDatabaseService();
             AddControllers();
             SetConnectionConfiguration();            
+        }
+        void SetAcceptiableContentType()
+        {
+            _Builder.Services.Configure<MvcOptions>
+                (
+                    (Options) =>
+                    {
+                        Options.Filters.Add(new ConsumesAttribute("application/json"));
+                        Options.Filters.Add(new ProducesAttribute("application/json"));
+                    }
+                );
         }
         void AddLogger() 
         {

@@ -45,7 +45,7 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
         {
             if (!Room.IsRoomExisted(paramters.RoomNumber))
             {
-                throw new Exception($"no room with the number {paramters.RoomNumber}  exist");
+                throw new Exception($"no room with the number {paramters.RoomNumber} exist");
             }
             return Reservation.IsRoomReserved(paramters);
         }
