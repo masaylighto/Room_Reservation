@@ -17,7 +17,7 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
 {
     public class RoomRepository : BaseRepository<Room>, IRoomRepository
     {
-        private DbSet<Room> _Rooms { get; set; }
+        private readonly DbSet<Room> _Rooms;
         public RoomRepository(DbSet<Room> rooms) : base(rooms)
         {
             _Rooms = rooms;

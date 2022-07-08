@@ -9,14 +9,15 @@ using System.Text;
 using System.Threading.Tasks;
  
 namespace Room_Reservation_System.Infrastructure.Database.Repository
-{
+{   
+    
     public sealed class RepositoryManager : IRepositoryManager
     {
-        private Lazy<IReservationRepository> _Reservation { get; set; }
-        private Lazy<IResourcesRepository> _Resources { get; set; }
-        private Lazy<IRoomRepository> _Room { get; set; }
 
-        private BaseContext _baseContext;
+        private readonly Lazy<IReservationRepository> _Reservation;
+        private readonly Lazy<IResourcesRepository> _Resources;
+        private readonly Lazy<IRoomRepository> _Room;            
+        private readonly BaseContext _baseContext;
      
         public RepositoryManager(BaseContext baseContext)
         {
@@ -49,6 +50,7 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
             return Reservation.IsRoomReserved(paramters);
         }
 
+        //this method used to provide access to repositories specialized methods 
         public IReservationRepository Reservation => _Reservation.Value;
         public IResourcesRepository Resources => _Resources.Value;
         public IRoomRepository Room => _Room.Value;

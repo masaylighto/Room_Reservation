@@ -12,7 +12,7 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
 {
     public class ResourceRepository : BaseRepository<Resource>, IResourcesRepository
     {
-        private DbSet<Resource> _Resource { get; set; }
+        private readonly DbSet<Resource> _Resource;
         public ResourceRepository(DbSet<Resource> resources) : base(resources)
         {
             _Resource = resources;

@@ -12,7 +12,7 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
-        private DbSet<T> Table { get; set; }
+        private readonly DbSet<T> Table;
 
         public BaseRepository(DbSet<T> table)
         {

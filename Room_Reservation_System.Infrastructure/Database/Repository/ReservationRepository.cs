@@ -16,7 +16,7 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
 {
     public class ReservationRepository : BaseRepository<Reservation>, IReservationRepository
     {
-        public DbSet<Reservation> _Reservations;
+        public readonly DbSet<Reservation> _Reservations;
         public ReservationRepository(DbSet<Reservation> _reservations) : base(_reservations)
         {
             _Reservations = _reservations;

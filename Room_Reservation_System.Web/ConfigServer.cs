@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
 using Room_Reservation_System.Infrastructure.Extentions;
-
+using Room_Reservation_System.Web.Middleware;
 namespace Room_Reservation_System.Web
 {
     public class ConfigServer
@@ -13,14 +13,19 @@ namespace Room_Reservation_System.Web
             _Builder = builder;
             ConfigServices();
             ConfigPipeline();
-            SetConnectionConfiguration();
+           
         }
         void ConfigServices() 
         {
+            AddLogger();
             AddDatabaseService();
             AddControllers();
+            SetConnectionConfiguration();            
         }
-     
+        void AddLogger() 
+        {
+            _Builder.Services.AddDefaultLogger();
+        }
         void AddControllers() 
         {
             _Builder.Services.AddControllers();          
@@ -44,9 +49,10 @@ namespace Room_Reservation_System.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseHttpsRedirection();  
+            app.UseHttpsRedirection();
+            app.UseGlobalErrorHandler();
             app.UseRouting();
-            app.UseAuthorization();
+            app.UseAuthorization();            
             app.MapControllers();
             app.Run();
         }
