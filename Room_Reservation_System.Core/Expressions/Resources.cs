@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Room_Reservation_System.Core.WhereClause
+namespace Room_Reservation_System.Core.Expressions
 {
-    public class ResourcesWhereClause
+    public class ResourcesExpressions
     {
     }
 }

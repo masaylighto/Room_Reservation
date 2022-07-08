@@ -8,8 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using Room_Reservation_System.Core.ExtensionMethods;
-using Room_Reservation_System.Core.WhereClause;
+using Room_Reservation_System.Core.Expressions;
 
 namespace Room_Reservation_System.Infrastructure.Database.Repository
 {
@@ -20,9 +19,9 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
         {
             _Rooms = rooms;
         }
-        public bool IsRoomExisted(int roomNumber)
+        public bool IsExist(int roomNumber)
         {
-            return _Rooms.Any(RoomWhereClause.RoomNumber(roomNumber)) ;
+            return _Rooms.Any(RoomExpressions.RoomNumber(roomNumber)) ;
         }
         public  IEnumerable<Room> Get(Func<Room, bool> expression, bool trackChanges)
         {

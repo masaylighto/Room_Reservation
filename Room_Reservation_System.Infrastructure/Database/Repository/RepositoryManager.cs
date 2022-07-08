@@ -1,7 +1,7 @@
 ﻿using Room_Reservation_System.Core.DataStructure.HttpParameters;
 using Room_Reservation_System.Core.Entites;
 using Room_Reservation_System.Core.Interfaces;
-using Room_Reservation_System.Core.WhereClause;
+using Room_Reservation_System.Core.Expressions;
 using Room_Reservation_System.Infrastructure.Database.Context;
 using System;
 using System.Collections.Generic;
@@ -36,45 +36,68 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
             return _baseContext.SaveChanges()>0;
         }
         /// <summary>
-        /// Check if the room reserved if the room is not exist it will through exception
+        ///  Will Through Exception if room isnt exist
         /// </summary>
         /// <param name="roomNumber"></param>
-      
-   
-
-        public bool IsRoomReserved(RoomReservationInfo paramters)
+        private void EnsureRoomExist(int roomNumber)
         {
-            if (!_Room.IsRoomExisted(paramters.RoomNumber))
+            if (!_Room.IsExist(roomNumber))
             {
-                throw new Exception($"no room with the number {paramters.RoomNumber} exist");
+                throw new Exception($"no room with the number {roomNumber} exist");
             }
+        }
+        public bool IsRoomReserved(RoomReservationInfo paramters)
+        {           
             return _Reservation.IsReservationExist(paramters);
         }
-        public bool CreateReservation(RoomReservationInfo paramters)
+        /// <summary>
+        /// Through Exception If Room Reserved
+        /// </summary>
+        /// <param name="paramters"></param>
+        /// <exception cref="Exception"></exception>
+       private void EnsureRoomNotReserved(RoomReservationInfo paramters)
         {
             if (IsRoomReserved(paramters))
             {
                 throw new Exception($"room {paramters.RoomNumber} already reserved at the chosen time");
-            }            
-            Room chossenRoom = _Room.Get(RoomWhereClause.RoomNumber(paramters.RoomNumber), true).FirstOrDefault()!;
-            Reservation reservation = new() 
+            }
+        }
+       private void AddRoomReservation(RoomReservationInfo paramters)
+        {
+            Room room = _Room.Get(RoomExpressions.RoomNumber(paramters.RoomNumber), true).FirstOrDefault()!;
+            Reservation reservation = new()
             {
                 id = Guid.NewGuid(),
                 Begin = paramters.StartDate,
                 End = paramters.EndDate,
-                ReservedRoom= chossenRoom,
-                RoomId= chossenRoom.Id
+                ReservedRoom = room,
+                RoomId = room.Id
             };
             _Reservation.Add(reservation);
-             chossenRoom.Reservations.Add(reservation);
+            room.Reservations!.Add(reservation);
+        }
+        public bool CreateReservation(RoomReservationInfo paramters)
+        {
+            EnsureRoomExist(paramters.RoomNumber);
+            EnsureRoomNotReserved(paramters);
+            AddRoomReservation(paramters);
             return Save();
         }
 
         public bool RemoveReservation(RoomReservationInfo paramters)
         {  
-            Func<Reservation, bool> matchCondtion = ReservationsWhereClause.WithinDate(paramters);
+            Func<Reservation, bool> matchCondtion = ReservationsExpressions.RoomNumberAndDate(paramters);
             _Reservation.Delete(matchCondtion);
             return Save();
+        }
+
+        public object RoomReservations(int roomNumber)
+        {
+           EnsureRoomExist(roomNumber);
+           return _Reservation
+                .Get(ReservationsExpressions.RoomNumber(roomNumber),false)
+                .Select((S)=> { return new { S.ReservedRoom.RoomNumber ,S.Begin,S.End }; })
+                .ToList();
         }
 
         //this method used to provide access to repositories specialized methods 

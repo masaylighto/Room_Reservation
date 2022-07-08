@@ -13,5 +13,6 @@ namespace Room_Reservation_System.Core.Interfaces
         bool IsReservationExist(RoomReservationInfo paramters);
          void Add(Reservation entity);
         void Delete(Func<Reservation, bool> expression);
+        IEnumerable<Reservation> Get(Func<Reservation, bool> expression,bool trackChanges);
     }
 }

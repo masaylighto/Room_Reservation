@@ -9,6 +9,6 @@ namespace Room_Reservation_System.Core.Interfaces
     public interface IRoomRepository
     {
         public IEnumerable<Room> Get(Func<Room, bool> expression, bool trackChanges);
-        bool IsRoomExisted(int roomNumber);
+        bool IsExist(int roomNumber);
     }
 }

@@ -10,4 +10,8 @@
     <ProjectReference Include="..\Room_Reservation_System.SharedKernel\Room_Reservation_System.SharedKernel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ExtensionMethods\" />
+  </ItemGroup>
+
 </Project>

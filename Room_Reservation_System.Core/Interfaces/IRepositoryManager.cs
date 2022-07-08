@@ -16,5 +16,6 @@ namespace Room_Reservation_System.Core.Interfaces
         bool Save();
         bool CreateReservation(RoomReservationInfo paramters);
         bool RemoveReservation(RoomReservationInfo paramters);
+        object RoomReservations(int roomNumber);
     }
 }

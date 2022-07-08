@@ -10,7 +10,7 @@ namespace Room_Reservation_System.Web.Middleware
     {
         private readonly RequestDelegate _Next;
         private readonly ILoggingService _Logger;
-        private  HttpContext _HttpContext;
+        private  HttpContext? _HttpContext;
         public GlobalErrorHandler(RequestDelegate next,ILoggingService Logger)
         {
             _Next = next;
@@ -37,7 +37,7 @@ namespace Room_Reservation_System.Web.Middleware
         {
            var response= new Dictionary<string, string>() { {"State","Failed"},{"Error",Exception} };
            var json = JsonConvert.SerializeObject(response);
-           await _HttpContext.Response.WriteAsync(json);
+           await _HttpContext!.Response.WriteAsync(json);
         }
     }
     public static class GlobalErrorHandlerExtension 

@@ -9,7 +9,7 @@ namespace Room_Reservation_System.Core.Response
     public static  class HttpResponses
     {
         /// <summary>
-        /// this method used to return a json response by return  a dictionary hold the data
+        /// this method used to return a JSON response by return  a dictionary hold the data
         /// </summary>
         /// <param name="ResponseData"></param>
         /// <returns></returns>

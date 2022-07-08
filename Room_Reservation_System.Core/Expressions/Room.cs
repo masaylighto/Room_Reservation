@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Room_Reservation_System.Core.WhereClause
+namespace Room_Reservation_System.Core.Expressions
 {
-    public static class RoomWhereClause
+    public static class RoomExpressions
     {
         /// <summary>
         /// return anonymous function that check if the specified room number exist in any of the record

@@ -41,7 +41,7 @@ namespace Room_Reservation_System.Web
         }
         void AddControllers() 
         {
-            _Builder.Services.AddControllers();          
+            _Builder.Services.AddControllers();//.AddNewtonsoftJson(Options=>Options.SerializerSettings.ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore);          
         }
         void SetConnectionConfiguration()
         {
