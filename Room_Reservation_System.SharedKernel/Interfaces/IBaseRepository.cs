@@ -14,5 +14,6 @@ namespace Room_Reservation_System.SharedKernel.Interfaces
         void Add(T entity);
         void Update(T entity);
         void Delete(T entity);
+        void Delete(Func<T, bool> expression);
     }
 }

@@ -21,11 +21,18 @@ namespace Room_Reservation_System.Web.Controllers
         {            
            return HttpResponses.Success(("IsRoomReserved", _RepositoryManager.IsRoomReserved(paramters)));           
         }
-        [Route("CreateReservation/")]
+        [Route("Create/")]
 
         public object CreateReservation(Core.DataStructure.HttpParameters.RoomReservationInfo paramters)
         {
             return HttpResponses.Success(("IsReservationSucceed", _RepositoryManager.CreateReservation(paramters)));
+        }
+        [Route("Remove/")]
+
+        public object RemoveReservation(Core.DataStructure.HttpParameters.RoomReservationInfo paramters)
+        {
+
+            return HttpResponses.Success(("IsRemoveSucceed", _RepositoryManager.RemoveReservation(paramters)));
         }
     }
 }

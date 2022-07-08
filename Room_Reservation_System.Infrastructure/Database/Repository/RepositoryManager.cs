@@ -15,16 +15,16 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
     public sealed class RepositoryManager : IRepositoryManager
     {
 
-        private readonly Lazy<IReservationRepository> _Reservation;
-        private readonly Lazy<IResourcesRepository> _Resources;
-        private readonly Lazy<IRoomRepository> _Room;            
+        private readonly Lazy<IReservationRepository> _LazyReservation;
+        private readonly Lazy<IResourcesRepository> _LazyResources;
+        private readonly Lazy<IRoomRepository> _LazyRoom;            
         private readonly BaseContext _baseContext;
      
         public RepositoryManager(BaseContext baseContext)
         {
-            _Reservation = new Lazy<IReservationRepository>(() => new ReservationRepository(baseContext.Set<Reservation>()));
-            _Resources = new Lazy<IResourcesRepository>(() => new ResourceRepository(baseContext.Set<Resource>()));
-            _Room = new Lazy<IRoomRepository>(() => new RoomRepository(baseContext.Set<Room>()));
+            _LazyReservation = new Lazy<IReservationRepository>(() => new ReservationRepository(baseContext.Set<Reservation>()));
+            _LazyResources = new Lazy<IResourcesRepository>(() => new ResourceRepository(baseContext.Set<Resource>()));
+            _LazyRoom = new Lazy<IRoomRepository>(() => new RoomRepository(baseContext.Set<Room>()));
             _baseContext = baseContext;
         }
         /// <summary>
@@ -40,43 +40,51 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
         /// </summary>
         /// <param name="roomNumber"></param>
       
-        public void ReserveRoom(int RoomId,DateTime StartDate,DateTime EndDate)
-        {
-       
-        }
+   
 
         public bool IsRoomReserved(RoomReservationInfo paramters)
         {
-            if (!Room.IsRoomExisted(paramters.RoomNumber))
+            if (!_Room.IsRoomExisted(paramters.RoomNumber))
             {
                 throw new Exception($"no room with the number {paramters.RoomNumber} exist");
             }
-            return Reservation.IsRoomReserved(paramters);
+            return _Reservation.IsReservationExist(paramters);
         }
-
+        Room? GetRoom(Func<Room,bool> whereClause)
+        {   
+            //Room.Get had been Overided in Room Repository Class
+            return _Room.Get(whereClause, true).FirstOrDefault();
+        }
         public bool CreateReservation(RoomReservationInfo paramters)
         {
             if (IsRoomReserved(paramters))
             {
-                throw new Exception($"room already reserved at the chosen time");
-            }
-            Room ChossenRoom = Room.Get(RoomWhereClause.RoomNumber(paramters.RoomNumber), true).First();
+                throw new Exception($"room {paramters.RoomNumber} already reserved at the chosen time");
+            }            
+            Room chossenRoom = GetRoom(RoomWhereClause.RoomNumber(paramters.RoomNumber))!;
             Reservation reservation = new() 
             {
                 id = Guid.NewGuid(),
                 Begin = paramters.StartDate,
                 End = paramters.EndDate,
-                ReservedRoom= ChossenRoom,
-                RoomId= ChossenRoom.Id
+                ReservedRoom= chossenRoom,
+                RoomId= chossenRoom.Id
             };
-            Reservation.Add(reservation);
-            ChossenRoom.Reservations.Add(reservation);
+            _Reservation.Add(reservation);
+            chossenRoom.Reservations.Add(reservation);
+            return Save();
+        }
+
+        public bool RemoveReservation(RoomReservationInfo paramters)
+        {  
+            Func<Reservation, bool> matchCondtion = ReservationsWhereClause.WithinDate(paramters);
+            _Reservation.Delete(matchCondtion);
             return Save();
         }
 
         //this method used to provide access to repositories specialized methods 
-        public IReservationRepository Reservation => _Reservation.Value;
-        public IResourcesRepository Resources => _Resources.Value;
-        public IRoomRepository Room => _Room.Value;
+        public IReservationRepository _Reservation => _LazyReservation.Value;
+        public IResourcesRepository _Resources => _LazyResources.Value;
+        public IRoomRepository _Room => _LazyRoom.Value;
     }
 }

@@ -28,6 +28,18 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
         {
             Table.Remove(entity);
         }
+        /// <summary>
+        /// Delete All Entity That Match the expression
+        /// </summary>
+        /// <param name="expression"></param>
+        public virtual void Delete(Func<T, bool> expression)
+        {
+            if (!Table.Any(expression))
+            {
+                throw new Exception("the records requested to be deleted does not exist ");
+            }
+            Table.RemoveRange(Table.Where(expression));
+        }
 
         public virtual IQueryable<T> Get(bool trackChanges)
         {
@@ -46,6 +58,8 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
             }
             return Table.AsNoTracking<T>().Where(expression);
         }
+
+        
 
         public virtual void Update(T entity)
         {

@@ -9,12 +9,12 @@ namespace Room_Reservation_System.Core.Interfaces
 {
     public interface IRepositoryManager
     {
-        IReservationRepository Reservation { get;  }
-        IResourcesRepository Resources { get;  }
-        IRoomRepository Room { get;  }
+        IReservationRepository _Reservation { get;  }
+        IResourcesRepository _Resources { get;  }
+        IRoomRepository _Room { get;  }
         public bool IsRoomReserved(RoomReservationInfo Paramters);
-        void ReserveRoom(int RoomId, DateTime StartDate, DateTime EndDate);
         bool Save();
         bool CreateReservation(RoomReservationInfo paramters);
+        bool RemoveReservation(RoomReservationInfo paramters);
     }
 }

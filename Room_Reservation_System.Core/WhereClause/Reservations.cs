@@ -14,11 +14,12 @@ namespace Room_Reservation_System.Core.WhereClause
     public static class ReservationsWhereClause
     {
         /// <summary>
-        /// return anonymous function that check if the specified room number match any record
+        /// return anonymous function that check if the specified room number 
+        /// and within the range of the specified time match any record
         /// </summary>
         /// <param name="roomNumber"></param>
         /// <returns></returns>
-        public static Func<Reservation, bool> Reservation(RoomReservationInfo paramters)
+        public static Func<Reservation, bool> WithinDate(RoomReservationInfo paramters)
         {
             return (entity) => { return entity.ReservedRoom?.RoomNumber == paramters.RoomNumber &&  (paramters.StartDate >= entity.Begin   &&   paramters.StartDate   <= entity.End) && (paramters.EndDate >= entity.Begin && paramters.EndDate <= entity.End); };
         }

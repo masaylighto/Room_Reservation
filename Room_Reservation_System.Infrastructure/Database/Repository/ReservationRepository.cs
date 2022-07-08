@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Room_Reservation_System.SharedKernel.Interfaces;
-using Room_Reservation_System.Core.Comparers.Entity.ReservationComparer;
 using Room_Reservation_System.Core.ExtensionMethods;
 using Room_Reservation_System.Core.WhereClause;
 using Room_Reservation_System.Core.DataStructure.HttpParameters;
@@ -20,9 +19,11 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
         public ReservationRepository(DbSet<Reservation> _reservations) : base(_reservations)
         {
             _Reservations = _reservations;
+        
         }
 
-       
+   
+
 
         /// <summary>
         /// this method only check if there is a reservation with this room number 
@@ -30,11 +31,23 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
         /// </summary>
         /// <param name="roomNumber"></param>
         /// <returns></returns>
-        public bool IsRoomReserved(RoomReservationInfo paramters)
+        public bool IsReservationExist(RoomReservationInfo paramters)
         { 
-            return _Reservations.Any(ReservationsWhereClause.Reservation(paramters));            
+            return _Reservations.Include(i=>i.ReservedRoom).Any(ReservationsWhereClause.WithinDate(paramters));            
+        }
+        /// <summary>
+        /// Delete All Entity That Match the expression
+        /// </summary>
+        /// <param name="expression"></param>
+        public override void Delete(Func<Reservation, bool> expression)
+        {
+
+            if (!_Reservations.Include(i => i.ReservedRoom).Any(expression))
+            {
+                throw new Exception("the records requested to be deleted does not exist ");
+            }
+            _Reservations.RemoveRange(_Reservations.Include(i => i.ReservedRoom).Where(expression));
         }
 
-       
     }
 }
