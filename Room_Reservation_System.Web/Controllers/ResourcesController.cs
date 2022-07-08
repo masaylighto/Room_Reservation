@@ -3,12 +3,12 @@ using Room_Reservation_System.Core.Interfaces;
 
 namespace Room_Reservation_System.Web.Controllers
 {
-    [Route("api/reservation/v1/room/")]
-    public class RoomController : Controller
+    [Route("api/reservation/v1/resources/")]
+    public class ResourcesController : Controller
     {
         private readonly IRepositoryManager _RepositoryManager;
 
-        public RoomController(IRepositoryManager repositoryManager)
+        public ResourcesController(IRepositoryManager repositoryManager)
         {
             _RepositoryManager = repositoryManager;
         }
