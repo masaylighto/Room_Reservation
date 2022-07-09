@@ -9,6 +9,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Room_Reservation_System.Core.Expressions;
+using Room_Reservation_System.Core.DataStructure.HttpParameters;
 
 namespace Room_Reservation_System.Infrastructure.Database.Repository
 {
@@ -32,6 +33,20 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
             }
             return room.AsNoTracking<Room>().Where(expression);
         }
-   
+
+        public void Add(Room room)
+        {
+            _Rooms.Add(room);
+        }
+
+        public void Delete(Func<Room, bool> expression)
+        {
+            if (!_Rooms.Any(expression))
+            {
+                throw new Exception("the room requested to be deleted does not exist ");
+            }
+            _Rooms.RemoveRange(_Rooms.Where(expression));
+
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Room_Reservation_System.Core.Interfaces;
+using Room_Reservation_System.Core.Response;
 
 namespace Room_Reservation_System.Web.Controllers
 {
@@ -12,5 +13,6 @@ namespace Room_Reservation_System.Web.Controllers
         {
             _RepositoryManager = repositoryManager;
         }
+
     }
 }

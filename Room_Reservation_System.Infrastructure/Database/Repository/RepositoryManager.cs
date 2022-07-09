@@ -36,7 +36,7 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
             return _baseContext.SaveChanges()>0;
         }
         /// <summary>
-        ///  Will Through Exception if room isnt exist
+        ///  Will Through Exception if room isn't exist
         /// </summary>
         /// <param name="roomNumber"></param>
         private void EnsureRoomExist(int roomNumber)
@@ -44,6 +44,17 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
             if (!_Room.IsExist(roomNumber))
             {
                 throw new Exception($"no room with the number {roomNumber} exist");
+            }
+        }
+        /// <summary>
+        ///  Will Through Exception if room  exist
+        /// </summary>
+        /// <param name="roomNumber"></param>
+        private void EnsureRoomNotExist(int roomNumber)
+        {
+            if (_Room.IsExist(roomNumber))
+            {
+                throw new Exception($" room with the number {roomNumber} already exist");
             }
         }
         public bool IsRoomReserved(RoomReservationInfo paramters)
@@ -99,6 +110,29 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
                 .Select((S)=> { return new { S.ReservedRoom.RoomNumber ,S.Begin,S.End }; })
                 .ToList();
         }
+
+        public object Reservations(DateTime startDate, DateTime endDate)
+        {             
+            return _Reservation
+                 .Get(ReservationsExpressions.DateRange(startDate, endDate), false)
+                 .Select((S) => { return new { S.ReservedRoom!.RoomNumber, S.Begin, S.End }; })
+                 .ToList();
+        }
+
+        public bool CreateRoom(RoomInfo room)
+        {
+            EnsureRoomNotExist(room.RoomNumber);
+             _Room.Add(room);
+            return Save();
+        }
+
+        public bool RemoveRoom(RoomInfo room)
+        {
+            EnsureRoomExist(room.RoomNumber);
+            _Room.Delete(RoomExpressions.RoomNumber(room.RoomNumber));
+            return Save();
+        }
+
 
         //this method used to provide access to repositories specialized methods 
         public IReservationRepository _Reservation => _LazyReservation.Value;

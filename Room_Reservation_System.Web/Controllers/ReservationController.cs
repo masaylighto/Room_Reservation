@@ -19,21 +19,21 @@ namespace Room_Reservation_System.Web.Controllers
         [Route("IsReserved/")]
         public object IsRoomReserved(Core.DataStructure.HttpParameters.RoomReservationInfo paramters)
         {
-            return HttpResponses.Success(("IsRoomReserved", _RepositoryManager.IsRoomReserved(paramters)));
+            return HttpResponses.Success(("IsDone", _RepositoryManager.IsRoomReserved(paramters)));
         }
 
         [HttpPost]
         [Route("Create/")]
         public object CreateReservation(Core.DataStructure.HttpParameters.RoomReservationInfo paramters)
         {
-            return HttpResponses.Success(("IsReservationSucceed", _RepositoryManager.CreateReservation(paramters)));
+            return HttpResponses.Success(("IsDone", _RepositoryManager.CreateReservation(paramters)));
         }
 
         [HttpPost]
         [Route("Remove/")]
         public object RemoveReservation(Core.DataStructure.HttpParameters.RoomReservationInfo paramters)
         {
-            return HttpResponses.Success(("IsRemoveSucceed", _RepositoryManager.RemoveReservation(paramters)));
+            return HttpResponses.Success(("IsDone", _RepositoryManager.RemoveReservation(paramters)));
         }
 
         [HttpGet]
@@ -42,5 +42,12 @@ namespace Room_Reservation_System.Web.Controllers
         {
             return HttpResponses.Success(("RoomReservations", _RepositoryManager.RoomReservations(roomNumber)));
         }
+        [HttpGet]
+        [Route("Reservations/")]
+        public object GetReservations([BindRequired] DateTime startDate , [BindRequired] DateTime endDate)
+        {
+            return HttpResponses.Success(("RoomReservations", _RepositoryManager.Reservations(startDate, endDate)));
+        }
+
     }
 }

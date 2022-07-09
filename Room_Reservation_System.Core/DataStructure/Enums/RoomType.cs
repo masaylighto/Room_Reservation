@@ -9,6 +9,6 @@ namespace Room_Reservation_System.Core.Enums
     public enum RoomType
     {
         SettingRoom,
-        StandingRoom
+        StandingRoom,            
     }
 }

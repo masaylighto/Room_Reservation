@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Room_Reservation_System.Core.Expressions
 {
+    /// <summary>
+    /// provide list of anonymous function that work as "where lambada" 
+    /// </summary>
     public static class RoomExpressions
     {
         /// <summary>

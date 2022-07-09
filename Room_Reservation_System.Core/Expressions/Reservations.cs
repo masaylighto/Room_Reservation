@@ -28,5 +28,12 @@ namespace Room_Reservation_System.Core.Expressions
         {
             return (entity) => { return entity.ReservedRoom?.RoomNumber == roomNumber; };
         }
+
+        public static Func<Reservation, bool> DateRange(DateTime startDate, DateTime endDate)
+        {
+            return (entity) => { return  (startDate >= entity.Begin && startDate <= entity.End) && (endDate >= entity.Begin && endDate <= entity.End); };
+        }
+
+  
     }
 }
