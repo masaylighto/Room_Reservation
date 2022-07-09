@@ -21,5 +21,6 @@ namespace Room_Reservation_System.Core.Interfaces
         bool CreateRoom(RoomInfo room);
         bool RemoveRoom(RoomInfo room);
         object GetRooms();
+        object GetRoom(RoomInfo room);
     }
 }

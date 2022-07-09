@@ -13,6 +13,7 @@ namespace Room_Reservation_System.Core.Entites
         [Required(ErrorMessage = "Reservation Id cant be left empty")]
         public Guid id { get; set; }
         public Guid RoomId { get; set; }
+        public string Owner { get; set; }
         public Room? ReservedRoom { get; set; }
         [DateTimeRange("time is not within the Acceptable range (8:00 AM - 5:00 PM)", "8:00 AM" ,"5:00 PM")]
         public DateTime Begin { get; set; }

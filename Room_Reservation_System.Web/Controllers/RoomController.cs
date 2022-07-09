@@ -39,5 +39,12 @@ namespace Room_Reservation_System.Web.Controllers
         {
             return HttpResponses.Success(("Rooms", _RepositoryManager.GetRooms()));
         }
+        [HttpGet]
+        [Route("Room/")]
+        public object GetRoom(Core.DataStructure.HttpParameters.RoomInfo room)
+        {
+            ArgumentNullException.ThrowIfNull(room.RoomNumber);
+            return HttpResponses.Success(("Room", _RepositoryManager.GetRoom(room)));
+        }
     }
 }

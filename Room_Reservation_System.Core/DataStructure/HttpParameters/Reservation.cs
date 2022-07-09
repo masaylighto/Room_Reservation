@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Room_Reservation_System.Core.Entites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,22 @@ namespace Room_Reservation_System.Core.DataStructure.HttpParameters
     public class ReservationInfo
     {
         [BindRequired]
+        public string Owner { get; set; }
+        [BindRequired]
         public int RoomNumber { get; set; }
         [BindRequired]
         public DateTime StartDate { get; set; }
         [BindRequired]
         public DateTime EndDate { get; set; }
+
+        public static implicit operator Reservation(ReservationInfo roomCreation)
+        {
+            Reservation reservation = new();
+            reservation.id = Guid.NewGuid();
+            reservation.Owner=roomCreation.Owner;
+            reservation.End = roomCreation.EndDate;
+            reservation.Begin = roomCreation.StartDate;
+            return reservation;
+        }
     }
 }

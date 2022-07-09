@@ -73,17 +73,12 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
                 throw new Exception($"room {paramters.RoomNumber} already reserved at the chosen time");
             }
         }
-       private void AddRoomReservation(ReservationInfo paramters)
+       private void AddRoomReservation(ReservationInfo ReservationInfo)
         {
-            Room room = _Room.Get(RoomExpressions.RoomNumber(paramters.RoomNumber), true).FirstOrDefault()!;
-            Reservation reservation = new()
-            {
-                id = Guid.NewGuid(),
-                Begin = paramters.StartDate,
-                End = paramters.EndDate,
-                ReservedRoom = room,
-                RoomId = room.Id
-            };
+            Room room = _Room.Get(RoomExpressions.RoomNumber(ReservationInfo.RoomNumber), true).FirstOrDefault()!;
+            Reservation reservation = ReservationInfo;
+            reservation.RoomId = room.Id;
+            reservation.ReservedRoom = room;
             _Reservation.Add(reservation);
             room.Reservations!.Add(reservation);
         }
@@ -107,7 +102,7 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
            EnsureRoomExist(roomNumber);
            return _Reservation
                 .Get(ReservationsExpressions.RoomNumber(roomNumber),false)
-                .Select((S)=> { return new { S.ReservedRoom.RoomNumber ,S.Begin,S.End }; })
+                .Select((S)=> { return new { S.ReservedRoom.RoomNumber ,S.Begin,S.End,S.Owner }; })
                 .ToList();
         }
 
@@ -115,7 +110,7 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
         {             
             return _Reservation
                  .Get(ReservationsExpressions.DateRange(startDate, endDate), false)
-                 .Select((S) => { return new { S.ReservedRoom!.RoomNumber, S.Begin, S.End }; })
+                 .Select((S) => { return new { S.ReservedRoom!.RoomNumber, S.Begin, S.End, S.Owner }; })
                  .ToList();
         }
 
@@ -139,6 +134,38 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
                     .Select((S) => 
                     {
                         return new { S.RoomNumber, S.Location, S.Capacity ,Type=S.Type.ToString() };
+                    });
+        }
+
+        public object GetRoom(RoomInfo roomInfo)
+        {
+            return _Room.Get(RoomExpressions.RoomNumber(roomInfo.RoomNumber),false)
+                    .Select((room) =>
+                    {
+                        return new {
+                            room.RoomNumber,
+                            room.Location,
+                            room.Capacity,
+                            Type = room.Type.ToString() ,
+                            ReservationDate=  room.Reservations.ToList().Select((reservation)=> 
+                            {
+                                return new 
+                                {
+                                    reservation.Begin,
+                                    reservation.End
+                                };
+                               
+                            }).ToList(),
+                            Resources = room.Resources.ToList().Select((resources) => 
+                            {
+                                return new
+                                {
+                                    resources.Name,
+                                    resources.Counts,
+                                    Type = resources.Type.ToString()
+                                };
+                            })
+                        };
                     });
         }
 

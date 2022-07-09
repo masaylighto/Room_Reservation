@@ -29,6 +29,7 @@ namespace Room_Reservation_System.Web.Controllers
         [Route("Create/")]
         public object CreateReservation(Core.DataStructure.HttpParameters.ReservationInfo reservationInfo)
         {
+            ArgumentNullException.ThrowIfNull(reservationInfo.Owner);
             ArgumentNullException.ThrowIfNull(reservationInfo.RoomNumber);
             ArgumentNullException.ThrowIfNull(reservationInfo.StartDate);
             ArgumentNullException.ThrowIfNull(reservationInfo.EndDate);
