@@ -57,7 +57,7 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
                 throw new Exception($" room with the number {roomNumber} already exist");
             }
         }
-        public bool IsRoomReserved(RoomReservationInfo paramters)
+        public bool IsRoomReserved(ReservationInfo paramters)
         {           
             return _Reservation.IsReservationExist(paramters);
         }
@@ -66,14 +66,14 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
         /// </summary>
         /// <param name="paramters"></param>
         /// <exception cref="Exception"></exception>
-       private void EnsureRoomNotReserved(RoomReservationInfo paramters)
+       private void EnsureRoomNotReserved(ReservationInfo paramters)
         {
             if (IsRoomReserved(paramters))
             {
                 throw new Exception($"room {paramters.RoomNumber} already reserved at the chosen time");
             }
         }
-       private void AddRoomReservation(RoomReservationInfo paramters)
+       private void AddRoomReservation(ReservationInfo paramters)
         {
             Room room = _Room.Get(RoomExpressions.RoomNumber(paramters.RoomNumber), true).FirstOrDefault()!;
             Reservation reservation = new()
@@ -87,7 +87,7 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
             _Reservation.Add(reservation);
             room.Reservations!.Add(reservation);
         }
-        public bool CreateReservation(RoomReservationInfo paramters)
+        public bool CreateReservation(ReservationInfo paramters)
         {
             EnsureRoomExist(paramters.RoomNumber);
             EnsureRoomNotReserved(paramters);
@@ -95,7 +95,7 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
             return Save();
         }
 
-        public bool RemoveReservation(RoomReservationInfo paramters)
+        public bool RemoveReservation(ReservationInfo paramters)
         {  
             Func<Reservation, bool> matchCondtion = ReservationsExpressions.RoomNumberAndDate(paramters);
             _Reservation.Delete(matchCondtion);
@@ -131,6 +131,15 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
             EnsureRoomExist(room.RoomNumber);
             _Room.Delete(RoomExpressions.RoomNumber(room.RoomNumber));
             return Save();
+        }
+
+        public object GetRooms()
+        {
+            return _Room.Get(false).ToList()
+                    .Select((S) => 
+                    {
+                        return new { S.RoomNumber, S.Location, S.Capacity ,Type=S.Type.ToString() };
+                    });
         }
 
 

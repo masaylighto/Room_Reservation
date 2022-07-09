@@ -17,7 +17,7 @@ namespace Room_Reservation_System.Web.Controllers
         }
         [HttpPost]
         [Route("Create/")]
-        public object CreateRoom([BindRequired]  Core.DataStructure.HttpParameters.RoomInfo room)
+        public object CreateRoom([BindRequired] Core.DataStructure.HttpParameters.RoomInfo room)
         {
            ArgumentNullException.ThrowIfNull(room.RoomNumber);
            ArgumentNullException.ThrowIfNull(room.Location);
@@ -28,10 +28,16 @@ namespace Room_Reservation_System.Web.Controllers
 
         [HttpPost]
         [Route("Remove/")]
-        public object  RemoveRoom( Core.DataStructure.HttpParameters.RoomInfo room)
+        public object  RemoveRoom(Core.DataStructure.HttpParameters.RoomInfo room)
         {
             ArgumentNullException.ThrowIfNull(room.RoomNumber);
             return HttpResponses.Success(("Removed", _RepositoryManager.RemoveRoom(room)));
+        }
+        [HttpGet]
+        [Route("Rooms/")]
+        public object GetRooms()
+        {
+            return HttpResponses.Success(("Rooms", _RepositoryManager.GetRooms()));
         }
     }
 }

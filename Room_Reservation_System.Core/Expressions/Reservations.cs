@@ -19,7 +19,7 @@ namespace Room_Reservation_System.Core.Expressions
         /// </summary>
         /// <param name="roomNumber"></param>
         /// <returns></returns>
-        public static Func<Reservation, bool> RoomNumberAndDate(RoomReservationInfo paramters)
+        public static Func<Reservation, bool> RoomNumberAndDate(ReservationInfo paramters)
         {
             return (entity) => { return entity.ReservedRoom?.RoomNumber == paramters.RoomNumber &&  (paramters.StartDate >= entity.Begin   &&   paramters.StartDate   <= entity.End) && (paramters.EndDate >= entity.Begin && paramters.EndDate <= entity.End); };
         }

@@ -9,7 +9,7 @@ namespace Room_Reservation_System.Core.DataStructure.HttpParameters
 {   /// <summary>
     /// used to bind HTTP request parameters
     /// </summary>
-    public class RoomReservationInfo
+    public class ReservationInfo
     {
         [BindRequired]
         public int RoomNumber { get; set; }

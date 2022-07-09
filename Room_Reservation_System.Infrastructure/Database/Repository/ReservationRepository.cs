@@ -25,7 +25,7 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
         /// </summary>
         /// <param name="roomNumber"></param>
         /// <returns></returns>
-        public bool IsReservationExist(RoomReservationInfo paramters)
+        public bool IsReservationExist(ReservationInfo paramters)
         { 
             return _Reservations.Include(i=>i.ReservedRoom).Any(ReservationsExpressions.RoomNumberAndDate(paramters));            
         }

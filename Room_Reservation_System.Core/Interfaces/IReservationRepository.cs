@@ -10,7 +10,7 @@ namespace Room_Reservation_System.Core.Interfaces
 {
     public interface IReservationRepository
     {
-        bool IsReservationExist(RoomReservationInfo paramters);
+        bool IsReservationExist(ReservationInfo paramters);
          void Add(Reservation entity);
         void Delete(Func<Reservation, bool> expression);
         IEnumerable<Reservation> Get(Func<Reservation, bool> expression,bool trackChanges);

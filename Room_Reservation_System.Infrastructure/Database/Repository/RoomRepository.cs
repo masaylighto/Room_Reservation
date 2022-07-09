@@ -48,5 +48,15 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
             _Rooms.RemoveRange(_Rooms.Where(expression));
 
         }
+
+        public IQueryable<Room> Get(bool trackChanges)
+        {
+            var room = _Rooms.Include(i => i.Reservations).Include(i => i.Resources);
+            if (trackChanges)
+            {
+                return room.AsQueryable<Room>();
+            }
+            return room.AsNoTracking<Room>();
+        }
     }
 }

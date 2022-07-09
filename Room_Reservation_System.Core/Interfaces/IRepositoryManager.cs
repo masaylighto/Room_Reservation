@@ -12,13 +12,14 @@ namespace Room_Reservation_System.Core.Interfaces
         IReservationRepository _Reservation { get;  }
         IResourcesRepository _Resources { get;  }
         IRoomRepository _Room { get;  }
-        public bool IsRoomReserved(RoomReservationInfo Paramters);
+        public bool IsRoomReserved(ReservationInfo Paramters);
         bool Save();
-        bool CreateReservation(RoomReservationInfo paramters);
-        bool RemoveReservation(RoomReservationInfo paramters);
+        bool CreateReservation(ReservationInfo paramters);
+        bool RemoveReservation(ReservationInfo paramters);
         object RoomReservations(int roomNumber);
         object Reservations(DateTime startDate, DateTime endDate);
         bool CreateRoom(RoomInfo room);
         bool RemoveRoom(RoomInfo room);
+        object GetRooms();
     }
 }

@@ -13,5 +13,7 @@ namespace Room_Reservation_System.Core.Interfaces
         bool IsExist(int roomNumber);
         void Add(Room room);
         void Delete(Func<Room, bool> expression);
+
+        IQueryable<Room> Get(bool trackChanges);
     }
 }
