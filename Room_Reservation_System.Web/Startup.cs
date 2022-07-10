@@ -4,25 +4,32 @@ using Room_Reservation_System.Infrastructure.Extentions;
 using Room_Reservation_System.Web.Middleware;
 namespace Room_Reservation_System.Web
 {
-    public class ConfigServer
+    public class Startup
     {
         private WebApplicationBuilder _Builder { get; set; }
 
-        public ConfigServer(ref WebApplicationBuilder builder)
+        public Startup(ref WebApplicationBuilder builder)
         {
             _Builder = builder;
-            ConfigServices();
-            ConfigPipeline();
+            ConfigureServices();
+            Configure();
            
         }
-        void ConfigServices() 
+        void ConfigureServices() 
         {
-
-            SetAcceptiableContentType();
+            SetHostConifguration();
+            AddServices();           
+        }
+        void AddServices() 
+        {
             AddLogger();
             AddDatabaseService();
             AddControllers();
-            SetConnectionConfiguration();            
+        }
+        void SetHostConifguration() 
+        {
+            SetAcceptiableContentType();
+            UseCors();
         }
         void SetAcceptiableContentType()
         {
@@ -35,6 +42,10 @@ namespace Room_Reservation_System.Web
                     }
                 );
         }
+        void UseCors()
+        {
+            _Builder.Services.ConfigureCors();
+        }
         void AddLogger() 
         {
             _Builder.Services.AddDefaultLogger();
@@ -43,16 +54,12 @@ namespace Room_Reservation_System.Web
         {
             _Builder.Services.AddControllers();//.AddNewtonsoftJson(Options=>Options.SerializerSettings.ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore);          
         }
-        void SetConnectionConfiguration()
-        {
-            _Builder.Services.ConfigureCors();
-        }
         void AddDatabaseService() 
         {
              string SqlServerConnection = _Builder.Configuration.GetConnectionString("sqlConnection");
             _Builder.Services.AddSqlServerDb(SqlServerConnection);
         }
-        void ConfigPipeline() {
+        void Configure() {
 
             WebApplication app = _Builder.Build();
             // Configure the HTTP request pipeline.
@@ -63,6 +70,7 @@ namespace Room_Reservation_System.Web
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+            //catch all the exception through by the application and return them as HTTP response to the caller
             app.UseGlobalErrorHandler();
             app.UseRouting();
             app.UseAuthorization();            
