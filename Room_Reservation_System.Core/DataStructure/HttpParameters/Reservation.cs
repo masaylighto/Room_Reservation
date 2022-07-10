@@ -13,7 +13,7 @@ namespace Room_Reservation_System.Core.DataStructure.HttpParameters
     public class ReservationInfo
     {
         [BindRequired]
-        public string Owner { get; set; }
+        public string? Owner { get; set; }
         [BindRequired]
         public int RoomNumber { get; set; }
         [BindRequired]
@@ -21,14 +21,15 @@ namespace Room_Reservation_System.Core.DataStructure.HttpParameters
         [BindRequired]
         public DateTime EndDate { get; set; }
 
-        public static implicit operator Reservation(ReservationInfo roomCreation)
+        public static implicit operator Reservation(ReservationInfo Info)
         {
-            Reservation reservation = new();
-            reservation.id = Guid.NewGuid();
-            reservation.Owner=roomCreation.Owner;
-            reservation.End = roomCreation.EndDate;
-            reservation.Begin = roomCreation.StartDate;
-            return reservation;
+            return new() 
+            {
+                id = Guid.NewGuid(),
+                Owner = Info.Owner!,
+                End   = Info.EndDate,
+                Begin = Info.StartDate
+            };
         }
     }
 }

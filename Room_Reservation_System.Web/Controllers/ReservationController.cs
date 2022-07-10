@@ -15,13 +15,10 @@ namespace Room_Reservation_System.Web.Controllers
             _RepositoryManager = repositoryManager;
         }
 
-        [HttpGet]
+        [HttpGet]        
         [Route("IsReserved/")]
         public object IsRoomReserved(Core.DataStructure.HttpParameters.ReservationInfo reservationInfo)
         {
-            ArgumentNullException.ThrowIfNull(reservationInfo.RoomNumber);
-            ArgumentNullException.ThrowIfNull(reservationInfo.StartDate);
-            ArgumentNullException.ThrowIfNull(reservationInfo.EndDate);
             return HttpResponses.Success(("IsDone", _RepositoryManager.IsRoomReserved(reservationInfo)));
         }
 
@@ -29,10 +26,6 @@ namespace Room_Reservation_System.Web.Controllers
         [Route("Create/")]
         public object CreateReservation(Core.DataStructure.HttpParameters.ReservationInfo reservationInfo)
         {
-            ArgumentNullException.ThrowIfNull(reservationInfo.Owner);
-            ArgumentNullException.ThrowIfNull(reservationInfo.RoomNumber);
-            ArgumentNullException.ThrowIfNull(reservationInfo.StartDate);
-            ArgumentNullException.ThrowIfNull(reservationInfo.EndDate);
             return HttpResponses.Success(("IsDone", _RepositoryManager.CreateReservation(reservationInfo)));
         }
 
@@ -40,26 +33,20 @@ namespace Room_Reservation_System.Web.Controllers
         [Route("Remove/")]
         public object RemoveReservation(Core.DataStructure.HttpParameters.ReservationInfo reservationInfo)
         {
-            ArgumentNullException.ThrowIfNull(reservationInfo.RoomNumber);
-            ArgumentNullException.ThrowIfNull(reservationInfo.StartDate);
-            ArgumentNullException.ThrowIfNull(reservationInfo.EndDate);
             return HttpResponses.Success(("IsDone", _RepositoryManager.RemoveReservation(reservationInfo)));
         }
 
         [HttpGet]
         [Route("RoomReservations/")]       
         public object RoomReservations(Core.DataStructure.HttpParameters.ReservationInfo reservationInfo)
-        {
-            ArgumentNullException.ThrowIfNull(reservationInfo.RoomNumber);
-            return HttpResponses.Success(("RoomReservations", _RepositoryManager.RoomReservations(reservationInfo.RoomNumber)));
+        {           
+            return HttpResponses.Success(("RoomReservations", _RepositoryManager.GetRoomReservations(reservationInfo)));
         }
         [HttpGet]
         [Route("Reservations/")]
         public object GetReservations(Core.DataStructure.HttpParameters.ReservationInfo reservationInfo)
         {
-            ArgumentNullException.ThrowIfNull(reservationInfo.StartDate);
-            ArgumentNullException.ThrowIfNull(reservationInfo.EndDate);
-            return HttpResponses.Success(("RoomReservations", _RepositoryManager.Reservations(reservationInfo.StartDate, reservationInfo.EndDate)));
+            return HttpResponses.Success(("Reservations", _RepositoryManager.AllReservativeDate(reservationInfo)));
         }
 
     }

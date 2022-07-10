@@ -24,14 +24,15 @@ namespace Room_Reservation_System.Core.DataStructure.HttpParameters
         public UInt16 Capacity { get; set; }
        
         [BindRequired]
-        public String Type { get; set; }
-        public static implicit operator Room(RoomInfo roomCreation) {
-            Room room = new();
-            room.Capacity = roomCreation.Capacity;
-            room.Location = roomCreation.Location;
-            room.RoomNumber=roomCreation.RoomNumber;
-            room.Type = Enum.Parse<Enums.RoomType>(roomCreation.Type,true);
-            return room;
+        public String? Type { get; set; }
+        public static implicit operator Room(RoomInfo info) 
+        {         
+            return new() {
+                Capacity   = info.Capacity,
+                Location   = info.Location,
+                RoomNumber = info.RoomNumber,
+                Type       = Enum.Parse<Enums.RoomType>(info.Type!, true)
+            };
         }
     }
 

@@ -15,7 +15,7 @@ namespace Room_Reservation_System.Core.Entites
         public Guid Id { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Resource Name can't be empty")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public uint Counts { get; set; }
 
         [Required(ErrorMessage = "Resource Type cant be left empty")]

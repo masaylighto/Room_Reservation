@@ -8,5 +8,10 @@ namespace Room_Reservation_System.Core.Interfaces
 {
     public interface IResourcesRepository
     {
+        /// <summary>
+        /// add new resource to database
+        /// </summary>
+        /// <param name="resource"></param>
+        void Add(Resource resource);
     }
 }

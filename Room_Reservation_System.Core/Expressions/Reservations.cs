@@ -11,7 +11,7 @@ namespace Room_Reservation_System.Core.Expressions
     /// <summary>
     /// static class containing function that return anonymous function to be used as where clause in entity
     /// </summary>
-    public static class ReservationsExpressions
+    public static class ReservationsWhereClause
     {
         /// <summary>
         /// return anonymous function that check if the specified room number 
@@ -35,5 +35,12 @@ namespace Room_Reservation_System.Core.Expressions
         }
 
   
+    }
+    public static class ReservationsSelectClause
+    {
+        public static Func<Reservation, object> Info()
+        {
+            return (reservation) => { return new { reservation.ReservedRoom!.RoomNumber, reservation.Begin, reservation.End, reservation.Owner }; };
+        }
     }
 }

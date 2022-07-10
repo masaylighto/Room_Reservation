@@ -27,7 +27,7 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
         /// <returns></returns>
         public bool IsReservationExist(ReservationInfo paramters)
         { 
-            return _Reservations.Include(i=>i.ReservedRoom).Any(ReservationsExpressions.RoomNumberAndDate(paramters));            
+            return _Reservations.Include(i=>i.ReservedRoom).Any(ReservationsWhereClause.RoomNumberAndDate(paramters));            
         }
         /// <summary>
         /// Delete All Entity That Match the expression

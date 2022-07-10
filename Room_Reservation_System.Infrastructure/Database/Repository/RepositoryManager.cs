@@ -57,9 +57,12 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
                 throw new Exception($" room with the number {roomNumber} already exist");
             }
         }
-        public bool IsRoomReserved(ReservationInfo paramters)
-        {           
-            return _Reservation.IsReservationExist(paramters);
+        public bool IsRoomReserved(ReservationInfo info)
+        {
+            ArgumentNullException.ThrowIfNull(info.RoomNumber);
+            ArgumentNullException.ThrowIfNull(info.StartDate);
+            ArgumentNullException.ThrowIfNull(info.EndDate);
+            return _Reservation.IsReservationExist(info);
         }
         /// <summary>
         /// Through Exception If Room Reserved
@@ -75,104 +78,149 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
         }
        private void AddRoomReservation(ReservationInfo ReservationInfo)
         {
-            Room room = _Room.Get(RoomExpressions.RoomNumber(ReservationInfo.RoomNumber), true).FirstOrDefault()!;
+            //get room attach it into the resource and add the resource into it
+            Room room = _Room.Get(RoomWhereClause.RoomNumber(ReservationInfo.RoomNumber), true).FirstOrDefault()!;
             Reservation reservation = ReservationInfo;
             reservation.RoomId = room.Id;
             reservation.ReservedRoom = room;
             _Reservation.Add(reservation);
             room.Reservations!.Add(reservation);
         }
-        public bool CreateReservation(ReservationInfo paramters)
+        public bool CreateReservation(ReservationInfo info)
         {
-            EnsureRoomExist(paramters.RoomNumber);
-            EnsureRoomNotReserved(paramters);
-            AddRoomReservation(paramters);
+            ArgumentNullException.ThrowIfNull(info.Owner);
+            ArgumentNullException.ThrowIfNull(info.RoomNumber);
+            ArgumentNullException.ThrowIfNull(info.StartDate);
+            ArgumentNullException.ThrowIfNull(info.EndDate);
+            EnsureRoomExist(info.RoomNumber);
+            EnsureRoomNotReserved(info);
+            AddRoomReservation(info);
             return Save();
         }
 
-        public bool RemoveReservation(ReservationInfo paramters)
-        {  
-            Func<Reservation, bool> matchCondtion = ReservationsExpressions.RoomNumberAndDate(paramters);
+        public bool RemoveReservation(ReservationInfo info)
+        {
+            ArgumentNullException.ThrowIfNull(info.RoomNumber);
+            ArgumentNullException.ThrowIfNull(info.StartDate);
+            ArgumentNullException.ThrowIfNull(info.EndDate);
+            Func<Reservation, bool> matchCondtion = ReservationsWhereClause.RoomNumberAndDate(info);
             _Reservation.Delete(matchCondtion);
             return Save();
         }
 
-        public object RoomReservations(int roomNumber)
+        public object GetRoomReservations(ReservationInfo info)
         {
-           EnsureRoomExist(roomNumber);
-           return _Reservation
-                .Get(ReservationsExpressions.RoomNumber(roomNumber),false)
-                .Select((S)=> { return new { S.ReservedRoom.RoomNumber ,S.Begin,S.End,S.Owner }; })
+            ArgumentNullException.ThrowIfNull(info.RoomNumber);
+            EnsureRoomExist(info.RoomNumber);
+            return _Reservation
+                .Get(ReservationsWhereClause.RoomNumber(info.RoomNumber),false)
+                .Select(ReservationsSelectClause.Info())
                 .ToList();
         }
 
-        public object Reservations(DateTime startDate, DateTime endDate)
-        {             
+        public object AllReservativeDate(ReservationInfo info)
+        {
+            ArgumentNullException.ThrowIfNull(info.StartDate);
+            ArgumentNullException.ThrowIfNull(info.EndDate);
             return _Reservation
-                 .Get(ReservationsExpressions.DateRange(startDate, endDate), false)
-                 .Select((S) => { return new { S.ReservedRoom!.RoomNumber, S.Begin, S.End, S.Owner }; })
+                 .Get(ReservationsWhereClause.DateRange(info.StartDate, info.EndDate), false)
+                 .Select(ReservationsSelectClause.Info())
                  .ToList();
         }
 
-        public bool CreateRoom(RoomInfo room)
+        public bool CreateRoom(RoomInfo info)
         {
-            EnsureRoomNotExist(room.RoomNumber);
-             _Room.Add(room);
+
+            ArgumentNullException.ThrowIfNull(info.RoomNumber);
+            ArgumentNullException.ThrowIfNull(info.Location);
+            ArgumentNullException.ThrowIfNull(info.Capacity);
+            ArgumentNullException.ThrowIfNull(info.Type);
+            EnsureRoomNotExist(info.RoomNumber);
+             _Room.Add(info);
             return Save();
         }
 
-        public bool RemoveRoom(RoomInfo room)
+        public bool RemoveRoom(RoomInfo info)
         {
-            EnsureRoomExist(room.RoomNumber);
-            _Room.Delete(RoomExpressions.RoomNumber(room.RoomNumber));
+            ArgumentNullException.ThrowIfNull(info.RoomNumber);
+            EnsureRoomExist(info.RoomNumber);
+            _Room.Delete(RoomWhereClause.RoomNumber(info.RoomNumber));
             return Save();
         }
 
         public object GetRooms()
         {
             return _Room.Get(false).ToList()
-                    .Select((S) => 
-                    {
-                        return new { S.RoomNumber, S.Location, S.Capacity ,Type=S.Type.ToString() };
-                    });
+                    .Select(RoomSelectClause.Info());
         }
 
-        public object GetRoom(RoomInfo roomInfo)
+        public object GetRoom(RoomInfo info)
         {
-            return _Room.Get(RoomExpressions.RoomNumber(roomInfo.RoomNumber),false)
-                    .Select((room) =>
-                    {
-                        return new {
-                            room.RoomNumber,
-                            room.Location,
-                            room.Capacity,
-                            Type = room.Type.ToString() ,
-                            ReservationDate=  room.Reservations.ToList().Select((reservation)=> 
-                            {
-                                return new 
-                                {
-                                    reservation.Begin,
-                                    reservation.End
-                                };
-                               
-                            }).ToList(),
-                            Resources = room.Resources.ToList().Select((resources) => 
-                            {
-                                return new
-                                {
-                                    resources.Name,
-                                    resources.Counts,
-                                    Type = resources.Type.ToString()
-                                };
-                            })
-                        };
-                    });
+            ArgumentNullException.ThrowIfNull(info.RoomNumber);
+            EnsureRoomExist(info.RoomNumber);
+            return _Room.Get(RoomWhereClause.RoomNumber(info.RoomNumber),false)
+                    .Select(RoomSelectClause.Info());
+        }
+
+        public bool AddResource(ResourceInfo info)
+        {
+            //get room attach it into resource into it and add resource into it
+            ArgumentNullException.ThrowIfNull(info.RoomNumber);
+            ArgumentNullException.ThrowIfNull(info.Name);
+            ArgumentNullException.ThrowIfNull(info.Counts);
+            ArgumentNullException.ThrowIfNull(info.Type);
+            EnsureRoomExist(info.RoomNumber);
+            Room room =_Room.Get(RoomWhereClause.RoomNumber(info.RoomNumber),true).First();
+            Resource resource = info;
+            resource.Room = room;
+            resource.RoomId = room.Id;
+            _Resources.Add(resource);
+            return Save();
+        }
+
+        public object GetRoomResource(ResourceInfo info)
+        {
+            ArgumentNullException.ThrowIfNull(info.RoomNumber);
+            EnsureRoomExist(info.RoomNumber);
+            Room room = _Room.Get(RoomWhereClause.RoomNumber(info.RoomNumber), true).First();
+            return room.Resources!.Select(ResourcesSelectClause.Info());
+        }
+
+        public bool MoveResource(MoveResourceInfo info)
+        {
+            /*
+                get the source room then get its resource check if the exist and movable 
+                detach them from the source room 
+                link them to the destination room             
+             */
+            ArgumentNullException.ThrowIfNull(info.SourceRoomNumber);
+            ArgumentNullException.ThrowIfNull(info.DistinationRoomNumber);
+            ArgumentNullException.ThrowIfNull(info.Name);
+            ArgumentNullException.ThrowIfNull(info.Counts);
+            EnsureRoomExist(info.SourceRoomNumber);
+            EnsureRoomExist(info.DistinationRoomNumber);
+            Room SourceRoom = _Room.Get(RoomWhereClause.RoomNumber(info.SourceRoomNumber), true).First();
+            Room DistinationRoom = _Room.Get(RoomWhereClause.RoomNumber(info.DistinationRoomNumber), true).First();
+            Resource? resources = SourceRoom.Resources!.FirstOrDefault(ResourcesWhereClause.ByName(info.Name));
+            if (resources is null)
+            {
+                throw new Exception($"no resources with the name {info.Name} in the room {info.SourceRoomNumber}");
+            }
+            if (resources.Type==Core.Enums.RoomResourceType.ImMovable)
+            {
+                throw new Exception($" resources with the name {info.Name} in the room {info.SourceRoomNumber} is immovable resouce");
+            }
+            resources.Room = DistinationRoom;
+            resources.RoomId = DistinationRoom.Id;
+            SourceRoom.Resources!.Remove(resources);
+            DistinationRoom.Resources!.Add(resources);
+            return Save();
         }
 
 
         //this method used to provide access to repositories specialized methods 
-        public IReservationRepository _Reservation => _LazyReservation.Value;
-        public IResourcesRepository _Resources => _LazyResources.Value;
-        public IRoomRepository _Room => _LazyRoom.Value;
+        private IReservationRepository _Reservation => _LazyReservation.Value;
+        private IResourcesRepository _Resources => _LazyResources.Value;
+        private IRoomRepository _Room => _LazyRoom.Value;
     }
 }

@@ -16,6 +16,10 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
         {
             _Resource = resources;
         }
-    
+
+        public void Add(Resource resource)
+        {
+            _Resource.Add(resource);
+        }
     }
 }

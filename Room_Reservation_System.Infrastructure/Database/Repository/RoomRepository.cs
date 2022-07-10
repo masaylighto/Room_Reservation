@@ -22,7 +22,7 @@ namespace Room_Reservation_System.Infrastructure.Database.Repository
         }
         public bool IsExist(int roomNumber)
         {
-            return _Rooms.Any(RoomExpressions.RoomNumber(roomNumber)) ;
+            return _Rooms.Any(RoomWhereClause.RoomNumber(roomNumber)) ;
         }
         public  IEnumerable<Room> Get(Func<Room, bool> expression, bool trackChanges)
         {

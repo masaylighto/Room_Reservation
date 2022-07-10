@@ -19,10 +19,6 @@ namespace Room_Reservation_System.Web.Controllers
         [Route("Create/")]
         public object CreateRoom([BindRequired] Core.DataStructure.HttpParameters.RoomInfo room)
         {
-           ArgumentNullException.ThrowIfNull(room.RoomNumber);
-           ArgumentNullException.ThrowIfNull(room.Location);
-           ArgumentNullException.ThrowIfNull(room.Capacity);
-           ArgumentNullException.ThrowIfNull(room.Type);
            return HttpResponses.Success(("Created", _RepositoryManager.CreateRoom(room)));
         }
 
@@ -30,7 +26,7 @@ namespace Room_Reservation_System.Web.Controllers
         [Route("Remove/")]
         public object  RemoveRoom(Core.DataStructure.HttpParameters.RoomInfo room)
         {
-            ArgumentNullException.ThrowIfNull(room.RoomNumber);
+            
             return HttpResponses.Success(("Removed", _RepositoryManager.RemoveRoom(room)));
         }
         [HttpGet]
@@ -43,7 +39,6 @@ namespace Room_Reservation_System.Web.Controllers
         [Route("Room/")]
         public object GetRoom(Core.DataStructure.HttpParameters.RoomInfo room)
         {
-            ArgumentNullException.ThrowIfNull(room.RoomNumber);
             return HttpResponses.Success(("Room", _RepositoryManager.GetRoom(room)));
         }
     }
